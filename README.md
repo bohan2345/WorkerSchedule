@@ -1,6 +1,3 @@
-WorkerSchedule
-==============
-
 Worker Schedule System
 ==============
 
