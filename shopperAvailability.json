@@ -80,7 +80,27 @@
 		}, {
 			"Name": "Yang"
 		}, {
-			"Name": "Pier"
+			"Name": "Pier",Availability: [
+        { 	
+			Day: 'Monday', 
+		 	Time: [
+			{
+				From: 8, 
+				To: 12
+			}, 
+			]
+		},
+		{ 	
+			Day: 'Saturday', 
+		 	Time: [
+			{
+				From: 8, 
+				To: 13
+			},
+			{
+				From: 15, 
+				To: 21
+			}]
 		}
 	]
 }
