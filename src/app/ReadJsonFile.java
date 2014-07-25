@@ -14,7 +14,6 @@ public class ReadJsonFile {
 		InputStream stream = null;
 		try {
 			stream = new FileInputStream(path);
-
 			JsonReader jsonReader = Json.createReader(stream);
 			JsonObject jsonObj = jsonReader.readObject();
 
