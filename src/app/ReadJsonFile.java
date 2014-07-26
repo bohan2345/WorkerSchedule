@@ -17,20 +17,13 @@ import javax.json.JsonReader;
 
 public class ReadJsonFile {
 
-<<<<<<< HEAD
-	public void readJson(String path) {
-=======
+
 	public void readJson(String path, Persons people) {
->>>>>>> FETCH_HEAD
 		InputStream stream = null;
 		try {
 			stream = new FileInputStream(path);
 			JsonReader jsonReader = Json.createReader(stream);
 			JsonObject jsonObj = jsonReader.readObject();
-<<<<<<< HEAD
-
-			System.out.println(jsonObj.getJsonArray("PersonalShoppers"));
-=======
 			
 //			JsonArray array = jsonObj.getJsonArray("PerosonalShoopers");
 //
@@ -137,7 +130,6 @@ public class ReadJsonFile {
 			
 //			System.out.println(jsonObj.getJsonArray("PersonalShoppers"));
 
->>>>>>> FETCH_HEAD
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

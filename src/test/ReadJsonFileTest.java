@@ -15,6 +15,7 @@ import app.Range;
 import app.ReadJsonFile;
 
 public class ReadJsonFileTest {
+	
 	public static void main(String[] args) {
 		
 		ReadJsonFile test = new ReadJsonFile();
