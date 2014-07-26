@@ -10,6 +10,7 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+<<<<<<< HEAD
 		<buildCommand>
 			<name>org.eclipse.wst.common.project.facet.core.builder</name>
 			<arguments>
@@ -19,6 +20,10 @@
 	<natures>
 		<nature>com.aptana.projects.webnature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+=======
+	</buildSpec>
+	<natures>
+>>>>>>> FETCH_HEAD
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
 </projectDescription>
