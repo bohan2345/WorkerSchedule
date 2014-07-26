@@ -3,10 +3,8 @@ package app;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-<<<<<<< HEAD
 
 import javax.json.Json;
-=======
 import java.util.ArrayList;
 
 import javax.json.Json;
