@@ -38,22 +38,18 @@ public class ReadJsonFile {
 			for (int j = 0; j < availArray.size(); j++) {
 				// the j availability of i shopper
 				JsonObject availJson = availArray.getJsonObject(j);
-				Availability avail = new Availability();
-				avail.setDay(availJson.getString("Day"));
+				String day = availJson.getString("Day");
 
 				// all the time
 				JsonArray timeArray = availJson.getJsonArray("Time");
-				ArrayList<Time> times = new ArrayList<>();
 				for (int n = 0; n < timeArray.size(); n++) {
 					JsonObject timeObj = timeArray.getJsonObject(n);
 
 					int from = timeObj.getInt("From");
 					int to = timeObj.getInt("To");
 
-					addAllPeriod(from, to, times);
+					addAllPeriod(day, from, to, avails);
 				}
-				avail.setAvailabilityTimes(times);
-				avails.add(avail);
 			}
 			shopper.setAvailabilities(avails);
 			shoppers.add(shopper);
@@ -61,12 +57,13 @@ public class ReadJsonFile {
 		return shoppers;
 	}
 
-	private void addAllPeriod(int from, int to, ArrayList<Time> times) {
+	private void addAllPeriod(String day, int from, int to, ArrayList<Availability> avails) {
 		for (int i = from; i <= to - 2; i++) {
-			Time time = new Time();
-			time.setFrom(i);
-			time.setTo(i + 2);
-			times.add(time);
+			Availability avail = new Availability();
+			avail.setDay(day);
+			avail.setFrom(i);
+			avail.setTo(i + 2);
+			avails.add(avail);
 		}
 	}
 

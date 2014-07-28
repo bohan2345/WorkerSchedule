@@ -1,10 +1,10 @@
 package app;
 
-import java.util.ArrayList;
 
 public class Availability {
 	private String day;
-	private ArrayList<Time> availabilityTimes;
+	private int from;
+	private int to;
 
 	public String getDay() {
 		return day;
@@ -14,11 +14,30 @@ public class Availability {
 		this.day = day;
 	}
 
-	public ArrayList<Time> getAvailabilityTimes() {
-		return availabilityTimes;
+	public int getFrom() {
+		return from;
 	}
 
-	public void setAvailabilityTimes(ArrayList<Time> availabilityTimes) {
-		this.availabilityTimes = availabilityTimes;
+	public void setFrom(int from) {
+		this.from = from;
+	}
+
+	public int getTo() {
+		return to;
+	}
+
+	public void setTo(int to) {
+		this.to = to;
+	}
+
+	public boolean isSameTimeWith(Availability avail) {
+		if (avail == null)
+			return false;
+
+		if (this.day.equals(avail.getDay())) {
+			if (this.from == avail.from && this.to == avail.to)
+				return true;
+		}
+		return false;
 	}
 }
