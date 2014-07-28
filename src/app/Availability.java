@@ -1,6 +1,5 @@
 package app;
 
-
 public class Availability {
 	private String day;
 	private int from;
@@ -39,5 +38,12 @@ public class Availability {
 				return true;
 		}
 		return false;
+	}
+
+	public String toString() {
+		String str = this.day + " ";
+		str += "from " + Integer.toString(this.from);
+		str += " to " + Integer.toString(this.to);
+		return str;
 	}
 }

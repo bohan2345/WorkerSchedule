@@ -71,35 +71,28 @@ public class ReadJsonFile {
 		}
 	}
 
-	// TODO fix bug, availability is not comparable.
-	public HashMap<Availability, ArrayList<Shopper>> getAllAvail(HashMap<String, Shopper> shoppers) {
+	public HashMap<String, ArrayList<Shopper>> getAllAvail(HashMap<String, Shopper> shoppers) {
 
-		HashMap<Availability, ArrayList<Shopper>> allAvails = new HashMap<Availability, ArrayList<Shopper>>();
+		HashMap<String, ArrayList<Shopper>> allAvails = new HashMap<String, ArrayList<Shopper>>();
 		ArrayList<Shopper> availShoppers = null;
 		for (String name : shoppers.keySet()) {
 			Shopper shopper = shoppers.get(name);
 			ArrayList<Availability> avails = shopper.getAvailabilities();
 			for (int i = 0; i < avails.size(); i++) {
 				Availability avail = avails.get(i);
-				if (!allAvails.containsKey(avail)) {
+				if (!allAvails.containsKey(avail.toString())) {
 					availShoppers = new ArrayList<Shopper>();
 					availShoppers.add(shopper);
-					allAvails.put(avail, availShoppers);
+					allAvails.put(avail.toString(), availShoppers);
 				} else {
-					availShoppers = allAvails.get(avail);
+					availShoppers = allAvails.get(avail.toString());
 					availShoppers.add(shopper);
-					allAvails.put(avail, availShoppers);
+					allAvails.put(avail.toString(), availShoppers);
 				}
 			}
 		}
 		return allAvails;
 	}
-
-	// public ArrayList<Shopper> getShoppersByAvail(Availability avail) {
-	// ArrayList<Shopper> shoppers = new ArrayList<Shopper>();
-	// Shopper shopper = null;
-	// return shoppers;
-	// }
 
 	public JsonObject readJson(String path) throws IOException {
 		InputStream stream = null;
