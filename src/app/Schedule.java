@@ -8,10 +8,4 @@ public class Schedule {
 
 	}
 
-	public ArrayList<Shopper> getShopperByAvail(Availability avail) {
-		ArrayList<Shopper> shoppers = new ArrayList<Shopper>();
-		Shopper shopper = null;
-		return shoppers;
-	}
-
 }
