@@ -1,25 +1,21 @@
 package test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
 
-import app.ConvertDayToPerson;
-import app.Person;
-import app.Persons;
-import app.Range;
 import app.ReadJsonFile;
+import app.Shopper;
 
 public class ReadJsonFileTest {
 
 	public static void main(String[] args) {
 
 		ReadJsonFile test = new ReadJsonFile();
-		Persons shoppers = new Persons();
-		test.readJson("shopperAvailability.json", shoppers);
+		ArrayList<Shopper> shoppers = test.getAllShoppers();
+		System.out.println(shoppers.size());
+		// Persons shoppers = new Persons();
+		// test.readJson("shopperAvailability.json", shoppers);
 
-		ArrayList<Person> shopperList = shoppers.getShoppers();
+		// ArrayList<Person> shopperList = shoppers.getShoppers();
 
 		// for(Person shopper : shopperList){
 		// System.out.print(shopper.getName()+ " has");
@@ -48,9 +44,9 @@ public class ReadJsonFileTest {
 		//
 		// }
 
-		ConvertDayToPerson con = new ConvertDayToPerson();
-		con.convert(shoppers);
-		con.displayDayRangeToPerson();
+		// ConvertDayToPerson con = new ConvertDayToPerson();
+		// con.convert(shoppers);
+		// con.displayDayRangeToPerson();
 
 	}
 }

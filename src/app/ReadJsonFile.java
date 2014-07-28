@@ -1,7 +1,7 @@
 package app;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -12,121 +12,72 @@ import javax.json.JsonReader;
 
 public class ReadJsonFile {
 
-	public void readJson(String path, Persons people) {
-		InputStream stream = null;
+	public ArrayList<Shopper> getAllShoppers() {
+		JsonObject personalShoppers = null;
 		try {
-			stream = new FileInputStream(path);
-			JsonReader jsonReader = Json.createReader(stream);
-			JsonObject jsonObj = jsonReader.readObject();
-
-			// JsonArray array = jsonObj.getJsonArray("PerosonalShoopers");
-			//
-			// JsonObject eachPerson =
-			// (jsonObj.getJsonArray("PerosonalShoopers")).getJsonObject(0);
-			// System.out.println(eachPerson.getString("name"));
-			// for(int i=0; i<array.size(); i++){
-			// JsonObject eachPerson1 = array.getJsonObject(i);
-			// String personName = eachPerson1.getString("name");
-			// System.out.println(personName);
-			// }
-			for (int i = 0; i < jsonObj.getJsonArray("PersonalShoppers").size(); i++) {
-				JsonObject eachPerson = jsonObj.getJsonArray("PersonalShoppers").getJsonObject(i);
-
-				String name = eachPerson.getString("Name");
-				Person shopper = new Person();
-				// System.out.println(name); // name
-				shopper.setName(name);
-
-				JsonArray availability = eachPerson.getJsonArray("Availability");
-				// System.out.println(availability);
-
-				for (int j = 0; j < availability.size(); j++) {
-					JsonObject eachDay = availability.getJsonObject(j);
-					// System.out.println(eachDay);
-					String dayName = eachDay.getString("Day");
-					// System.out.println(dayName);
-					JsonArray timeArray = eachDay.getJsonArray("Time");
-					for (int m = 0; m < timeArray.size(); m++) {
-						JsonObject eachPeriod = timeArray.getJsonObject(m);
-						int start = eachPeriod.getInt("From");
-						int end = eachPeriod.getInt("To");
-						String dayAndTime = dayName + " From " + start + " To " + end;
-						int rawSlot = end - start;
-						if (rawSlot < 2) {
-							System.out.println("The " + name + " " + dayAndTime + " was not added in list");
-							continue;
-						}
-						ArrayList<Range> allPossibleRange = new ArrayList<Range>();
-
-						for (int k = start, step = 2; k <= end - 2; k += step) {
-							int tempEnd = k + 2;
-							int remain = end - tempEnd;
-							if (tempEnd > end)
-								break;
-
-							Range newRange = new Range(k, tempEnd);
-							allPossibleRange.add(newRange);
-
-							if (remain == 1) {
-								Range newRange2 = new Range(k, end);
-								allPossibleRange.add(newRange2);
-							}
-						}
-
-						shopper.setRawSlot(rawSlot);
-						// System.out.println(dayAndTime);
-						shopper.setAvailablePeriod(dayAndTime);
-
-						switch (dayName) {
-						case "Monday":
-							for (Range r : allPossibleRange) {
-								shopper.setAllAvailableSlots("Mon", r);
-							}
-							break;
-						case "Tuesday":
-							for (Range r : allPossibleRange) {
-								shopper.setAllAvailableSlots("Tu", r);
-							}
-							break;
-						case "Wednesday":
-							for (Range r : allPossibleRange) {
-								shopper.setAllAvailableSlots("Wed", r);
-							}
-							break;
-						case "Thursday":
-							for (Range r : allPossibleRange) {
-								shopper.setAllAvailableSlots("Th", r);
-							}
-							break;
-						case "Friday":
-							for (Range r : allPossibleRange) {
-								shopper.setAllAvailableSlots("Fr", r);
-							}
-							break;
-						case "Saturday":
-							for (Range r : allPossibleRange) {
-								shopper.setAllAvailableSlots("Sat", r);
-							}
-							break;
-						case "Sunday":
-							for (Range r : allPossibleRange) {
-								shopper.setAllAvailableSlots("Sun", r);
-							}
-							break;
-						}
-
-						allPossibleRange.clear();
-					}
-				}
-
-				people.setShoppers(shopper);
-			}
-
-			// System.out.println(jsonObj.getJsonArray("PersonalShoppers"));
-
-		} catch (FileNotFoundException e) {
+			personalShoppers = readJson("shopperAvailability.json");
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		ArrayList<Shopper> shoppers = new ArrayList<>();
+		// all the shoppers
+		JsonArray shoppersArray = personalShoppers.getJsonArray("PersonalShoppers");
+
+		for (int i = 0; i < shoppersArray.size(); i++) {
+			// the i Shopper
+			JsonObject shopperJson = shoppersArray.getJsonObject(i);
+
+			Shopper shopper = new Shopper();
+			shopper.setName(shopperJson.getString("Name"));
+
+			// the i Shopper's all availabilities
+			JsonArray availArray = shopperJson.getJsonArray("Availability");
+
+			ArrayList<Availability> avails = new ArrayList<>();
+			for (int j = 0; j < availArray.size(); j++) {
+				// the j availability of i shopper
+				JsonObject availJson = availArray.getJsonObject(j);
+				Availability avail = new Availability();
+				avail.setDay(availJson.getString("Day"));
+
+				// all the time
+				JsonArray timeArray = availJson.getJsonArray("Time");
+				ArrayList<Time> times = new ArrayList<>();
+				for (int n = 0; n < timeArray.size(); n++) {
+					JsonObject timeObj = timeArray.getJsonObject(n);
+
+					int from = timeObj.getInt("From");
+					int to = timeObj.getInt("To");
+
+					addAllPeriod(from, to, times);
+				}
+				avail.setAvailabilityTimes(times);
+				avails.add(avail);
+			}
+			shopper.setAvailabilities(avails);
+			shoppers.add(shopper);
+		}
+		return shoppers;
+	}
+
+	private void addAllPeriod(int from, int to, ArrayList<Time> times) {
+		for (int i = from; i <= to - 2; i++) {
+			Time time = new Time();
+			time.setFrom(i);
+			time.setTo(i + 2);
+			times.add(time);
+		}
+	}
+
+	public JsonObject readJson(String path) throws IOException {
+		InputStream stream = null;
+		JsonObject jsonObj = null;
+		stream = new FileInputStream(path);
+		JsonReader jsonReader = Json.createReader(stream);
+		jsonObj = jsonReader.readObject();
+
+		stream.close();
+		return jsonObj;
 	}
 }
