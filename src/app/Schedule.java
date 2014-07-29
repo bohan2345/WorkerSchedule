@@ -2,6 +2,8 @@ package app;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 public class Schedule {
@@ -63,6 +65,58 @@ public class Schedule {
 		}
 
 		// TODO check if every shopper satisfied the time constraint.(everyone has 8 hour)
+		ArrayList<String> satisfiedShoppers = new ArrayList<String>(); // store shopper satisfied
+		ArrayList<String> notSatisfiedShoppers = new ArrayList<String>(); // store shopper not satisfied
+		for (String shopper : shoppers.keySet()) {
+			if (!shopperSchedule.containsKey(shopper)) {
+				notSatisfiedShoppers.add(shopper);
+			} else {
+				ArrayList<Availability> avails = shopperSchedule.get(shopper);
+				if (avails.size() >= 4) {
+					satisfiedShoppers.add(shopper);
+				} else {
+					notSatisfiedShoppers.add(shopper);
+				}
+			}
+		}
+		int n = 0;
+		while (notSatisfiedShoppers.size() > 0) {
+			String notSatisfiedShopper = notSatisfiedShoppers.get(n);
+			if (shopperSchedule.get(notSatisfiedShopper).size() >= 4) {
+				notSatisfiedShoppers.remove(n);
+				n++;
+				continue;
+			}
+			// get this notSatisfiedShopper's available time
+			ArrayList<Availability> hisAvails = shoppers.get(notSatisfiedShopper).getAvailabilities();
+			for (int i = 0; i < hisAvails.size(); i++) {
+				String hisAvailStr = hisAvails.get(i).toString();
+				for (int j = 0; j < shopperSchedule.get(notSatisfiedShopper).size(); j++) {
+					// find his available time which has not been scheduled
+					if (!hisAvailStr.equals(shopperSchedule.get(notSatisfiedShopper).get(j).toString())) {
+						// random find a shopper who worked more than 8 hour
+						Random r = new Random();
+						while (true) {
+							int m = r.nextInt(satisfiedShoppers.size());
+							String satisfiedShopper = satisfiedShoppers.get(m);
+
+							if (shopperSchedule.get(satisfiedShopper).size() > 4) {
+								// try to remove one time slot for this satisfied shopper and schedule this available time for notSatisfiedShopper.
+								for (int z = 0; z < shopperSchedule.get(satisfiedShopper).size(); z++) {
+									Availability waitToRemove = shopperSchedule.get(satisfiedShopper).get(z);
+									if (allAvails.get(waitToRemove.toString()).contains(notSatisfiedShopper)) {
+										shopperSchedule.get(notSatisfiedShopper).add(waitToRemove);
+										shopperSchedule.get(satisfiedShopper).remove(waitToRemove);
+										break;
+									}
+								}
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
 		// TODO remove more working hour
 		return shopperSchedule;
 	}
