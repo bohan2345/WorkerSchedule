@@ -33,7 +33,7 @@ public class Schedule {
 		avail2.setFrom(avail.getFrom() - 1);
 		avail2.setTo(avail.getTo() - 1);
 
-		if (schedule.containsKey(avail.toString()) && schedule.containsKey(avail1.toString()) && schedule.containsKey(avail2.toString())) {
+		if (schedule.containsKey(avail.toString()) || schedule.containsKey(avail1.toString()) || schedule.containsKey(avail2.toString())) {
 			return true;
 		} else
 			return false;
