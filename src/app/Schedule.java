@@ -61,6 +61,9 @@ public class Schedule {
 				shopperSchedule.put(shopper, avails);
 			}
 		}
+
+		// TODO check if every shopper satisfied the time constraint.(everyone has 8 hour)
+		// TODO remove more working hour
 		return shopperSchedule;
 	}
 }
