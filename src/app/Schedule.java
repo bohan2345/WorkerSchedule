@@ -2,8 +2,6 @@ package app;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Random;
 
 public class Schedule {
