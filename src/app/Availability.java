@@ -40,28 +40,6 @@ public class Availability {
 		this.to = Integer.valueOf(availStr.substring(availStr.indexOf("to ") + 3));
 	}
 
-	public boolean isSameTimeWith(Availability avail) {
-		if (avail == null)
-			return false;
-
-		if (this.day.equals(avail.getDay())) {
-			if (this.from == avail.from && this.to == avail.to)
-				return true;
-		}
-		return false;
-	}
-
-	public boolean isConfilctWith(Availability avail) {
-		if (avail != null) {
-			boolean sameDay = this.day.equals(avail.getDay());
-			boolean timeConfilct = !((this.from - avail.getFrom() >= 2) || (this.from - avail.getFrom() <= -2));
-
-			if (sameDay && timeConfilct)
-				return true;
-		}
-		return false;
-	}
-
 	public String toString() {
 		String str = this.day + " ";
 		str += "from " + Integer.toString(this.from);

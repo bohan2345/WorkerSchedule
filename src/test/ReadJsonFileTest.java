@@ -3,7 +3,6 @@ package test;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import app.Availability;
 import app.ReadJsonFile;
 import app.Shopper;
 
